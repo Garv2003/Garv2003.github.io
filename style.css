@@ -189,7 +189,7 @@ h2 {
 }
 @keyframes slideDown {
   from {
-    transform: translateY(-5%);
+    transform: translateY(-40%);
   }
   to {
     transform: translateY(0);
