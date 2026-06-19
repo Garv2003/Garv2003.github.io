@@ -411,7 +411,9 @@ section.content.visible { opacity: 1; transform: none; }
 .contact-card {
   flex: 1 1 220px;
   max-width: 300px;
+  min-width: 0;
 }
+.contact-card > div:last-child { min-width: 0; overflow: hidden; }
 
 .contact-card {
   background: var(--surface);
@@ -450,7 +452,7 @@ section.content.visible { opacity: 1; transform: none; }
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
-.contact-val { font-size: 13.5px; font-weight: 500; margin-top: 1px; }
+.contact-val { font-size: 13.5px; font-weight: 500; margin-top: 1px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
 
 /* ── Footer ───────────────────────────────────── */
 footer {
