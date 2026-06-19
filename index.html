@@ -1,232 +1,755 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Netflix India – Watch TV Shows Online, Watch Movies Online</title>
-    <link rel="icon" type="image/x-icon" href="/image/favicon.ico">
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="container">
-      <div class="navbar">
-        <img class="logo" src="./image/Logonetflix.png" alt="" />
-        <div class="register">
-          <div class="lang">
-            <select name="lang" id="lang">
-              <option value="volvo">🌐English</option>
-              <option value="audi">🌐Hindi</option>
-            </select>
-          </div>
-          <button class="signin">Sign In</button>
-        </div>
-      </div>
-      <div class="disp">
-        <div class="disp-1">
-          <div class="disp-2">Unlimited movies, TV shows and more</div>
-          <div class="disp-3">Watch anywhere. Cancel anytime.</div>
-          <div class="disp-4">
-            Ready to watch? Enter your email to create or restart your
-            membership.
-          </div>
-          <form class="form">
-            <input
-              class="input-form"
-              type="text"
-              name="Email address"
-              placeholder="Email address"
-            />
-            <button class="inpbutton">Get Started ></button>
-          </form>
-        </div>
-      </div>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Garv Aggarwal — Backend Engineer</title>
+<meta name="description" content="Backend engineer building distributed Java and Go systems. New Delhi.">
+<style>
+:root {
+  --ground:   #09090B;
+  --surface:  #18181B;
+  --surface2: #27272A;
+  --border:   #3F3F46;
+  --text:     #FAFAFA;
+  --muted:    #A1A1AA;
+  --accent:   #F59E0B;
+  --accent-d: #D97706;
+  --accent-l: #FEF3C7;
+  --shipped:  #22C55E;
+  --ship-bg:  rgba(34,197,94,0.1);
+  --resolved: #F87171;
+  --res-bg:   rgba(248,113,113,0.1);
+  --active:   #60A5FA;
+  --act-bg:   rgba(96,165,250,0.1);
+  --mono: ui-monospace,"SFMono-Regular","Cascadia Code",Menlo,Monaco,monospace;
+  --sans: system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--ground);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+/* ── Nav ──────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(20px, 5vw, 80px);
+  background: rgba(9,9,11,0);
+  border-bottom: 1px solid transparent;
+  transition: background 0.3s, border-color 0.3s;
+}
+nav.scrolled {
+  background: rgba(9,9,11,0.92);
+  border-color: var(--border);
+  backdrop-filter: blur(12px);
+}
+
+.nav-logo {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+}
+.nav-logo:hover { text-decoration: none; color: var(--accent); }
+
+.nav-links {
+  display: flex;
+  gap: 28px;
+  list-style: none;
+  font-size: 13px;
+}
+.nav-links a { color: var(--muted); transition: color 0.15s; }
+.nav-links a:hover { color: var(--text); text-decoration: none; }
+
+/* ── Hero ─────────────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 120px clamp(20px,5vw,80px) 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(ellipse, rgba(245,158,11,0.12) 0%, transparent 65%);
+  pointer-events: none;
+  animation: pulse-glow 6s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.7; transform: translate(-50%,-60%) scale(1); }
+  50%       { opacity: 1;   transform: translate(-50%,-60%) scale(1.08); }
+}
+
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fade-up 0.6s 0.1s ease both;
+}
+
+.hero-name {
+  font-size: clamp(52px, 10vw, 96px);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fade-up 0.6s 0.2s ease both;
+}
+
+.hero-title {
+  font-size: clamp(15px, 2.5vw, 18px);
+  color: var(--muted);
+  font-weight: 400;
+  max-width: 520px;
+  opacity: 0;
+  animation: fade-up 0.6s 0.35s ease both;
+}
+
+.hero-title b { color: var(--text); font-weight: 600; }
+
+.hero-links {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+  opacity: 0;
+  animation: fade-up 0.6s 0.5s ease both;
+}
+
+.hero-link {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+  padding: 7px 16px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: color 0.15s, border-color 0.15s;
+}
+.hero-link:hover { color: var(--text); border-color: var(--accent); text-decoration: none; }
+
+.kpi-row {
+  display: flex;
+  gap: 16px;
+  margin-top: 60px;
+  flex-wrap: wrap;
+  justify-content: center;
+  opacity: 0;
+  animation: fade-up 0.6s 0.65s ease both;
+}
+
+.kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px 28px;
+  text-align: center;
+  min-width: 110px;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.kpi:hover { border-color: var(--accent); transform: translateY(-2px); }
+
+.kpi-val {
+  display: block;
+  font-family: var(--mono);
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.kpi-label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+/* ── Shared section ───────────────────────────── */
+.page { max-width: 820px; margin: 0 auto; padding: 0 clamp(20px,5vw,48px); }
+
+section.content {
+  padding: 80px 0;
+  border-top: 1px solid var(--border);
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+section.content.visible { opacity: 1; transform: none; }
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 36px;
+}
+
+/* ── Badges ───────────────────────────────────── */
+.badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.badge-shipped  { background: var(--ship-bg); color: var(--shipped); border-color: rgba(34,197,94,0.3);  }
+.badge-resolved { background: var(--res-bg);  color: var(--resolved); border-color: rgba(248,113,113,0.3); }
+.badge-active   { background: var(--act-bg);  color: var(--active);   border-color: rgba(96,165,250,0.3); }
+
+/* ── Work entries ─────────────────────────────── */
+.employer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+.employer-name { font-size: 17px; font-weight: 700; }
+.employer-period {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  gap: 20px;
+  padding: 20px 0;
+  border-top: 1px solid var(--border);
+  align-items: start;
+}
+.entry:first-of-type { border-top: none; }
+
+.entry-body h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.entry-body p {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: var(--surface2);
+  color: var(--muted);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+/* ── Projects ─────────────────────────────────── */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 16px;
+}
+
+.project-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.project-card:hover {
+  border-color: var(--accent-d);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(245,158,11,0.08);
+}
+.project-card:hover::before { opacity: 1; }
+
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.project-card h3 {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.project-card p {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.project-stat {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  background: rgba(245,158,11,0.08);
+  border: 1px solid rgba(245,158,11,0.2);
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-top: 4px;
+  transition: color 0.15s;
+}
+.project-link:hover { color: var(--accent); text-decoration: none; }
+
+/* ── Stack ────────────────────────────────────── */
+.stack-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.stack-chip {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+  background: var(--surface);
+  transition: color 0.15s, border-color 0.15s;
+  cursor: default;
+}
+.stack-chip:hover { color: var(--accent); border-color: var(--accent-d); }
+
+/* ── Contact ──────────────────────────────────── */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.contact-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: border-color 0.15s, transform 0.15s;
+  color: var(--text);
+}
+.contact-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  text-decoration: none;
+  color: var(--text);
+}
+
+.contact-icon {
+  width: 36px;
+  height: 36px;
+  background: var(--surface2);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.contact-label {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.contact-val { font-size: 13.5px; font-weight: 500; margin-top: 1px; }
+
+/* ── Footer ───────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 24px clamp(20px,5vw,48px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+footer p { font-family: var(--mono); font-size: 12px; color: var(--muted); }
+
+/* ── Animations ───────────────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── Responsive ───────────────────────────────── */
+@media (max-width: 600px) {
+  .kpi-row { gap: 10px; }
+  .kpi { padding: 14px 18px; min-width: 80px; }
+  .kpi-val { font-size: 28px; }
+  .entry { grid-template-columns: 72px 1fr; gap: 12px; }
+  .project-grid { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  section.content { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">GA_</a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#stack">Stack</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <p class="hero-eyebrow">New Delhi, India · Open to SDE-2 Roles</p>
+  <h1 class="hero-name">Garv Aggarwal</h1>
+  <p class="hero-title">
+    Backend engineer building <b>distributed Java and Go systems</b> in production.
+    On-call for 54 services. Exploring <b>LLMs &amp; AI systems</b>.
+  </p>
+  <div class="hero-links">
+    <a href="https://linkedin.com/in/garvaggarwal05" target="_blank" rel="noopener" class="hero-link">LinkedIn</a>
+    <a href="https://github.com/garv2003" target="_blank" rel="noopener" class="hero-link">GitHub</a>
+    <a href="mailto:aggarwalgarv0505@gmail.com" class="hero-link">Email</a>
+  </div>
+  <div class="kpi-row">
+    <div class="kpi">
+      <span class="kpi-val" data-target="756">0</span>
+      <span class="kpi-label">Commits</span>
     </div>
-    <div class="cards">
-      <div class="c-11">
-        <div class="c-111">
-          <h2>Enjoy on your TV</h2>
-          <h4>
-            Watch on smart TVs, PlayStation, Xbox, Chromecast, Apple TV, Blu-ray
-            players and more.
-          </h4>
-        </div>
-        <img src="./image/gif1.gif" class="cardimg" alt="" />
-      </div>
-      <div class="c-11 reverse">
-        <img src="./image/c-42.png" class="cardimg" alt="" />
-        <div class="c-111">
-          <h2>Download your shows to watch offline</h2>
-          <h4>
-            Save your favourites easily and always have something to watch.
-          </h4>
-        </div>
-      </div>
-      <div class="c-11">
-        <div class="c-111">
-          <h2>Watch everywhere</h2>
-          <h4>
-            Stream unlimited movies and TV shows on your phone, tablet, laptop,
-            and TV.
-          </h4>
-        </div>
-        <img src="./image/c-22.png" class="cardimg" alt="" />
-      </div>
-      <div class="c-11 reverse">
-        <img src="./image/c-31.png" class="cardimg" alt="" />
-        <div class="c-111">
-          <h2>Create profiles for kids</h2>
-          <h4>
-            Send children on adventures with their favourite characters in a
-            space made just for them—free with your membership.
-          </h4>
-        </div>
+    <div class="kpi">
+      <span class="kpi-val" data-target="7">0</span>
+      <span class="kpi-label">Features</span>
+    </div>
+    <div class="kpi">
+      <span class="kpi-val" data-target="6">0</span>
+      <span class="kpi-label">Incidents</span>
+    </div>
+    <div class="kpi">
+      <span class="kpi-val" data-target="54">0</span>
+      <span class="kpi-label">Services</span>
+    </div>
+  </div>
+</section>
+
+<div class="page">
+
+  <!-- Work -->
+  <section class="content" id="work">
+    <p class="section-label">// Production Work</p>
+    <div class="employer-row">
+      <span class="employer-name">Octro Inc — Member of Technical Staff</span>
+      <span class="employer-period">Mar 2025 – Present</span>
+    </div>
+
+    <div class="entry">
+      <span class="badge badge-shipped">Shipped</span>
+      <div class="entry-body">
+        <h3>Guest-to-Social Account Migration</h3>
+        <p>Time-limited code generation, email verification, and atomic account merge for Facebook and Apple login — spanning 3 services with expiry, same-user, and partial-failure guards.</p>
+        <div class="tags"><span class="tag">Java</span><span class="tag">MongoDB</span><span class="tag">3 services</span><span class="tag">Atomic writes</span></div>
       </div>
     </div>
 
-    <section class="drop">
-      <div class="frequent">
-        <div class="title">Frequently Asked Questions</div>
-        <ul class="questions">
-          <div class="ques" id="1">
-            <div>What is Netflix?</div>
-            <img src="./image/plus.png" class="img" id="ip1" alt="" />
-            <img src="./image/cross.png" class="img hidden" id="ic1" alt="" />
-          </div>
-          <div class="popup hidden" id="p1">
-            <div>
-              Netflix is a streaming service that offers a wide variety of
-              award-winning TV shows, movies, anime, documentaries and more – on
-              thousands of internet-connected devices.
-            </div>
-            <div>
-              You can watch as much as you want, whenever you want, without a
-              single ad – all for one low monthly price. There's always
-              something new to discover, and new TV shows and movies are added
-              every week!
-            </div>
-          </div>
-          <div class="ques" id="2">
-            <div>How much does Netflix cost?</div>
-            <img src="./image/plus.png" class="img" id="ip2" alt="" />
-            <img src="./image/cross.png" class="img hidden" id="ic2" alt="" />
-          </div>
-          <div class="popup hidden" id="p2">
-            Watch Netflix on your smartphone, tablet, Smart TV, laptop, or
-            streaming device, all for one fixed monthly fee. Plans range from ₹
-            149 to ₹ 649 a month. No extra costs, no contracts.
-          </div>
-          <div class="ques" id="3">
-            <div>Where can I watch?</div>
-            <img src="./image/plus.png" class="img" id="ip3" alt="" />
-            <img src="./image/cross.png" class="img hidden" id="ic3" alt="" />
-          </div>
-          <div class="popup hidden" id="p3">
-            <div>
-              Watch anywhere, anytime. Sign in with your Netflix account to
-              watch instantly on the web at netflix.com from your personal
-              computer or on any internet-connected device that offers the
-              Netflix app, including smart TVs, smartphones, tablets, streaming
-              media players and game consoles.
-            </div>
-            <div>
-              You can also download your favourite shows with the iOS, Android,
-              or Windows 10 app. Use downloads to watch while you're on the go
-              and without an internet connection. Take Netflix with you
-              anywhere.
-            </div>
-          </div>
-          <div class="ques" id="4">
-            <div>How do I cancel?</div>
-            <img src="./image/plus.png" class="img" alt="" id="ip4"/>
-            <img src="./image/cross.png" class="img hidden" alt="" id="ic4" />
-          </div>
-          <div class="popup hidden" id="p4">
-            Netflix is flexible. There are no annoying contracts and no
-            commitments. You can easily cancel your account online in two
-            clicks. There are no cancellation fees – start or stop your account
-            anytime.
-          </div>
-          <div class="ques" id="5">
-            <div>What can I watch on Netflix?</div>
-            <img src="./image/plus.png" class="img" alt="" id="ip5" />
-            <img src="./image/cross.png" class="img hidden" alt="" id="ic5" />
-          </div>
-          <div class="popup hidden" id="p5">
-            Netflix has an extensive library of feature films, documentaries, TV
-            shows, anime, award-winning Netflix originals, and more. Watch as
-            much as you want, anytime you want.
-          </div>
-          <div class="ques" id="6">
-            <div>Is Netflix good for kids?</div>
-            <img src="./image/plus.png" class="img" alt=""  id="ip6"/>
-            <img src="./image/cross.png" class="img hidden" alt="" id="ic6"/>
-          </div>
-          <div class="popup hidden" id="p6">
-            <div>
-              The Netflix Kids experience is included in your membership to give
-              parents control while kids enjoy family-friendly TV shows and
-              films in their own space.
-            </div>
-            <div>
-              Kids profiles come with PIN-protected parental controls that let
-              you restrict the maturity rating of content kids can watch and
-              block specific titles you don’t want kids to see.
-            </div>
-          </div>
-        </ul>
-        <div class="disp-5 disp-4">
-          Ready to watch? Enter your email to create or restart your membership.
-        </div>
-        <form class="form bo">
-          <input
-            class="input-form"
-            type="text"
-            name="Email address"
-            placeholder="Email address"
-          />
-          <button class="inpbutton">Get Started ></button>
-        </form>
+    <div class="entry">
+      <span class="badge badge-shipped">Shipped</span>
+      <div class="entry-body">
+        <h3>Free Spins V2</h3>
+        <p>Per-reward expiry semantics, Trinity CRM scheduling integration, and balance integrity on account merge and deletion across 3 services. Coordinated cross-service contract design.</p>
+        <div class="tags"><span class="tag">Java</span><span class="tag">Spring</span><span class="tag">3 services</span><span class="tag">TTL</span></div>
       </div>
-    </section>
+    </div>
 
-    <footer class="footer">
-      <div class="subfooter">
-        <div class="call">Questions? Call 000-800-919-1694</div>
-        <div class="footer-content">
-          <div class="footer-section">
-            <p>FAQ</p>
-            <p>Investor Relations</p>
-            <p>Privacy</p>
-            <p>Speed Test</p>
-          </div>
-          <div class="footer-section">
-            <p>Help Center</p>
-            <p>Jobs</p>
-            <p>Cookie Preferences</p>
-            <p>Legal Notices</p>
-          </div>
-          <div class="footer-section">
-            <p>Account</p>
-            <p>Ways to Watch</p>
-            <p>Corporate Information</p>
-            <p>Only on Netflix</p>
-          </div>
-          <div class="footer-section">
-            <p>Media Centre</p>
-            <p>Terms of Use</p>
-            <p>Contact Us</p>
-          </div>
-        </div>
-        <div class="lang">
-          <select name="lang" id="lang">
-            <option value="volvo">🌐English</option>
-            <option value="audi">🌐Hindi</option>
-          </select>
-        </div>
-        <div class="foot">Netflix India</div>
+    <div class="entry">
+      <span class="badge badge-shipped">Shipped</span>
+      <div class="entry-body">
+        <h3>Trinity Push Notifications via Amazon SQS</h3>
+        <p>Replaced a synchronous HTTP call on the login path with an async SQS pipeline — platform-routed to iOS/Android, per-platform thresholds via ZooKeeper, DLQ with CloudWatch alerting.</p>
+        <div class="tags"><span class="tag">Amazon SQS</span><span class="tag">ZooKeeper</span><span class="tag">Async</span><span class="tag">DLQ</span></div>
       </div>
-    </footer>
-    <script src="./script.js"></script>
-  </body>
+    </div>
+
+    <div class="entry">
+      <span class="badge badge-shipped">Shipped</span>
+      <div class="entry-body">
+        <h3>Real-time Crash Game Backend (Free Flight)</h3>
+        <p>Bet/cashout flow, per-room RTP settings, and a live leaderboard refreshed every 30 seconds via WebSocket push to all connected clients.</p>
+        <div class="tags"><span class="tag">Java</span><span class="tag">Redis</span><span class="tag">WebSockets</span><span class="tag">Real-time</span></div>
+      </div>
+    </div>
+
+    <div class="entry">
+      <span class="badge badge-shipped">Shipped</span>
+      <div class="entry-body">
+        <h3>ZooKeeper Runtime Configuration System</h3>
+        <p>Feature flags and settings that propagate to all 54 service instances without redeployment. Designed the propagation model — zero-downtime rollouts and safer staged releases.</p>
+        <div class="tags"><span class="tag">ZooKeeper</span><span class="tag">Java</span><span class="tag">54 instances</span><span class="tag">Zero-downtime</span></div>
+      </div>
+    </div>
+
+    <div class="entry">
+      <span class="badge badge-resolved">Resolved</span>
+      <div class="entry-body">
+        <h3>Redisson Distributed Lock — Thread Ownership Bug</h3>
+        <p><code style="font-family:var(--mono);font-size:12px;background:var(--res-bg);color:var(--resolved);padding:1px 5px;border-radius:3px">IllegalMonitorStateException</code> from Redisson unlock violating thread affinity — 5xx bursts cascading across 3 services. Diagnosed thread-context switch in async path; fixed call-site, added thread-ID logging.</p>
+        <div class="tags"><span class="tag">Redisson</span><span class="tag">Redis</span><span class="tag">LTS-10745</span><span class="tag">3 services</span></div>
+      </div>
+    </div>
+
+    <div class="entry">
+      <span class="badge badge-resolved">Resolved</span>
+      <div class="entry-body">
+        <h3>WebSocket Race Condition + BonusGenerator NPE</h3>
+        <p>Duplicate session authorization on reconnect due to non-atomic ClientContext state transition. Separately: NPE in <code style="font-family:var(--mono);font-size:12px">isBonusActive()</code> blocking campaign reward delivery for active users.</p>
+        <div class="tags"><span class="tag">WebSockets</span><span class="tag">Java</span><span class="tag">LTS-13849</span><span class="tag">LTS-11231</span></div>
+      </div>
+    </div>
+
+    <div class="entry">
+      <span class="badge badge-resolved">Resolved</span>
+      <div class="entry-body">
+        <h3>Jackpot N+1 + Login Path Batching</h3>
+        <p>Jackpot service running per-user Redis round-trips on a 10-second polling interval. Batched the query. Also batched MongoDB reads on login path and halved build artifact size.</p>
+        <div class="tags"><span class="tag">Performance</span><span class="tag">MongoDB</span><span class="tag">Redis</span><span class="tag">N+1</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section class="content" id="projects">
+    <p class="section-label">// Side Projects</p>
+    <div class="project-grid">
+
+      <div class="project-card">
+        <div class="project-header">
+          <h3>Code Execution Engine</h3>
+          <span class="badge badge-active">Active</span>
+        </div>
+        <p>LeetCode-style backend in Go — worker pool with buffered channels, ephemeral Docker containers per submission with resource limits and context timeouts, SSE streaming for real-time output.</p>
+        <div class="tags">
+          <span class="project-stat">3.2s → 450ms</span>
+          <span class="project-stat">500+ concurrent</span>
+        </div>
+        <div class="tags"><span class="tag">Go</span><span class="tag">Docker SDK</span><span class="tag">Redis Pub/Sub</span><span class="tag">SSE</span><span class="tag">Goroutines</span></div>
+        <a href="https://github.com/garv2003/code-execution-engine" target="_blank" rel="noopener" class="project-link">
+          View on GitHub →
+        </a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-header">
+          <h3>HTTP Load Balancer</h3>
+          <span class="badge badge-active">Active</span>
+        </div>
+        <p>Production-style Go load balancer with multiple routing strategies, runtime config reload without dropping traffic via fsnotify + sync.RWMutex, and active health checks with failure isolation.</p>
+        <div class="tags">
+          <span class="project-stat">Zero-downtime reload</span>
+        </div>
+        <div class="tags"><span class="tag">Go</span><span class="tag">sync.RWMutex</span><span class="tag">fsnotify</span><span class="tag">YAML</span></div>
+        <a href="https://github.com/garv2003/http-load-balancer" target="_blank" rel="noopener" class="project-link">
+          View on GitHub →
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Stack -->
+  <section class="content" id="stack">
+    <p class="section-label">// Stack</p>
+    <div class="stack-row">
+      <span class="stack-chip">Java</span>
+      <span class="stack-chip">Go</span>
+      <span class="stack-chip">Spring Boot</span>
+      <span class="stack-chip">MongoDB</span>
+      <span class="stack-chip">Redis</span>
+      <span class="stack-chip">RabbitMQ</span>
+      <span class="stack-chip">ZooKeeper</span>
+      <span class="stack-chip">Amazon SQS</span>
+      <span class="stack-chip">WebSockets</span>
+      <span class="stack-chip">Docker</span>
+      <span class="stack-chip">AWS</span>
+      <span class="stack-chip">Avro / BI</span>
+      <span class="stack-chip">Kafka</span>
+      <span class="stack-chip">Linux</span>
+      <span class="stack-chip">JavaScript</span>
+      <span class="stack-chip">TypeScript</span>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="content" id="contact">
+    <p class="section-label">// Contact</p>
+    <p style="color:var(--muted);font-size:14px;margin-bottom:24px;max-width:480px;">
+      Open to senior backend / SDE-2 roles in distributed systems, platform engineering, or AI/LLM infrastructure.
+    </p>
+    <div class="contact-grid">
+      <a href="mailto:aggarwalgarv0505@gmail.com" class="contact-card">
+        <div class="contact-icon">✉</div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-val">aggarwalgarv0505@gmail.com</div>
+        </div>
+      </a>
+      <a href="https://linkedin.com/in/garvaggarwal05" target="_blank" rel="noopener" class="contact-card">
+        <div class="contact-icon" style="font-weight:800;font-size:13px;">in</div>
+        <div>
+          <div class="contact-label">LinkedIn</div>
+          <div class="contact-val">garvaggarwal05</div>
+        </div>
+      </a>
+      <a href="https://github.com/garv2003" target="_blank" rel="noopener" class="contact-card">
+        <div class="contact-icon" style="font-family:var(--mono);font-size:13px;font-weight:700;">gh</div>
+        <div>
+          <div class="contact-label">GitHub</div>
+          <div class="contact-val">garv2003</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <p>garv2003.github.io</p>
+  <p>Built with HTML · No frameworks</p>
+</footer>
+
+<script>
+  // Nav scroll state
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  }, { passive: true });
+
+  // KPI counter animation
+  function animateCounters() {
+    const els = document.querySelectorAll('.kpi-val[data-target]');
+    const dur = 1200, start = performance.now();
+    function step(now) {
+      const t = Math.min((now - start) / dur, 1);
+      const e = 1 - Math.pow(1 - t, 4);
+      els.forEach(el => {
+        el.textContent = Math.round(e * +el.dataset.target);
+      });
+      if (t < 1) requestAnimationFrame(step);
+      else els.forEach(el => { el.textContent = el.dataset.target; });
+    }
+    requestAnimationFrame(step);
+  }
+
+  // Section reveal on scroll
+  const sections = document.querySelectorAll('section.content');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  sections.forEach(s => observer.observe(s));
+
+  // Init
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    animateCounters();
+  } else {
+    document.querySelectorAll('.kpi-val[data-target]').forEach(el => { el.textContent = el.dataset.target; });
+    sections.forEach(s => s.classList.add('visible'));
+  }
+</script>
+
+</body>
 </html>
