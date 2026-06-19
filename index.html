@@ -403,10 +403,14 @@ section.content.visible { opacity: 1; transform: none; }
 
 /* ── Contact ──────────────────────────────────── */
 .contact-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   margin-top: 8px;
+}
+.contact-card {
+  flex: 1 1 220px;
+  max-width: 300px;
 }
 
 .contact-card {
@@ -678,7 +682,7 @@ footer p { font-family: var(--mono); font-size: 12px; color: var(--muted); }
   <section class="content" id="contact">
     <p class="section-label">// Contact</p>
     <p style="color:var(--muted);font-size:14px;margin-bottom:24px;max-width:480px;">
-      Open to senior backend / SDE-2 roles in distributed systems, platform engineering, or AI/LLM infrastructure.
+      Open to backend engineering roles in distributed systems, platform engineering, or AI/LLM infrastructure.
     </p>
     <div class="contact-grid">
       <a href="mailto:aggarwalgarv0505@gmail.com" class="contact-card">
