@@ -517,8 +517,8 @@ footer p { font-family: var(--mono); font-size: 12px; color: var(--muted); }
   </div>
   <div class="kpi-row">
     <div class="kpi">
-      <span class="kpi-val" data-target="756">0</span>
-      <span class="kpi-label">Commits</span>
+      <span class="kpi-val" data-target="1">0</span>
+      <span class="kpi-label">Year Exp.</span>
     </div>
     <div class="kpi">
       <span class="kpi-val" data-target="7">0</span>
@@ -526,7 +526,7 @@ footer p { font-family: var(--mono); font-size: 12px; color: var(--muted); }
     </div>
     <div class="kpi">
       <span class="kpi-val" data-target="6">0</span>
-      <span class="kpi-label">Incidents</span>
+      <span class="kpi-label">Resolved</span>
     </div>
     <div class="kpi">
       <span class="kpi-val" data-target="54">0</span>
@@ -548,72 +548,72 @@ footer p { font-family: var(--mono); font-size: 12px; color: var(--muted); }
     <div class="entry">
       <span class="badge badge-shipped">Shipped</span>
       <div class="entry-body">
-        <h3>Guest-to-Social Account Migration</h3>
-        <p>Time-limited code generation, email verification, and atomic account merge for Facebook and Apple login — spanning 3 services with expiry, same-user, and partial-failure guards.</p>
-        <div class="tags"><span class="tag">Java</span><span class="tag">MongoDB</span><span class="tag">3 services</span><span class="tag">Atomic writes</span></div>
+        <h3>Cross-provider Account Migration with Atomic Merge</h3>
+        <p>Designed and shipped a multi-provider identity linking system (Facebook, Apple Sign-In) so users can migrate existing accounts to social login without data loss. Owns the full flow: server-side time-bound token generation, email verification, and an atomic merge transaction across 3 microservices — with guards for concurrent same-user requests, partial-failure rollback, and TTL-based token invalidation.</p>
+        <div class="tags"><span class="tag">Java</span><span class="tag">MongoDB</span><span class="tag">3 services</span><span class="tag">Atomic writes</span><span class="tag">Idempotency</span></div>
       </div>
     </div>
 
     <div class="entry">
       <span class="badge badge-shipped">Shipped</span>
       <div class="entry-body">
-        <h3>Free Spins V2</h3>
-        <p>Per-reward expiry semantics, Trinity CRM scheduling integration, and balance integrity on account merge and deletion across 3 services. Coordinated cross-service contract design.</p>
-        <div class="tags"><span class="tag">Java</span><span class="tag">Spring</span><span class="tag">3 services</span><span class="tag">TTL</span></div>
+        <h3>Time-bound Reward Delivery System</h3>
+        <p>Built a reward system where each reward carries its own independent TTL — expiry is per-reward, not per-session, so users don't lose entitlements on logout. Integrated with an external CRM for scheduled delivery triggers. Designed the cross-service data contract and maintained reward balance integrity across account merge and deletion flows spanning 3 services.</p>
+        <div class="tags"><span class="tag">Java</span><span class="tag">Spring</span><span class="tag">TTL</span><span class="tag">CRM integration</span><span class="tag">3 services</span></div>
       </div>
     </div>
 
     <div class="entry">
       <span class="badge badge-shipped">Shipped</span>
       <div class="entry-body">
-        <h3>Trinity Push Notifications via Amazon SQS</h3>
-        <p>Replaced a synchronous HTTP call on the login path with an async SQS pipeline — platform-routed to iOS/Android, per-platform thresholds via ZooKeeper, DLQ with CloudWatch alerting.</p>
-        <div class="tags"><span class="tag">Amazon SQS</span><span class="tag">ZooKeeper</span><span class="tag">Async</span><span class="tag">DLQ</span></div>
+        <h3>Async Push Notification Pipeline — Amazon SQS</h3>
+        <p>Re-architected mobile push notification delivery from a blocking HTTP call on the login critical path to a fully async SQS pipeline — decoupling notification throughput from login latency. Built iOS/Android platform routing, per-platform delivery rate limits backed by ZooKeeper runtime config, and a dead-letter queue with CloudWatch alerting for failed deliveries.</p>
+        <div class="tags"><span class="tag">Amazon SQS</span><span class="tag">ZooKeeper</span><span class="tag">Async</span><span class="tag">DLQ</span><span class="tag">CloudWatch</span></div>
       </div>
     </div>
 
     <div class="entry">
       <span class="badge badge-shipped">Shipped</span>
       <div class="entry-body">
-        <h3>Real-time Crash Game Backend (Free Flight)</h3>
-        <p>Bet/cashout flow, per-room RTP settings, and a live leaderboard refreshed every 30 seconds via WebSocket push to all connected clients.</p>
-        <div class="tags"><span class="tag">Java</span><span class="tag">Redis</span><span class="tag">WebSockets</span><span class="tag">Real-time</span></div>
+        <h3>Real-time Multiplayer Game Server</h3>
+        <p>Built the backend for a real-time multiplayer betting game serving concurrent player sessions — wager acceptance, cashout processing, configurable per-room payout rates, and a live leaderboard broadcast to all connected clients over WebSocket every 30 seconds. Maintained per-room state isolation under concurrent load.</p>
+        <div class="tags"><span class="tag">Java</span><span class="tag">Redis</span><span class="tag">WebSockets</span><span class="tag">Real-time</span><span class="tag">Concurrent sessions</span></div>
       </div>
     </div>
 
     <div class="entry">
       <span class="badge badge-shipped">Shipped</span>
       <div class="entry-body">
-        <h3>ZooKeeper Runtime Configuration System</h3>
-        <p>Feature flags and settings that propagate to all 54 service instances without redeployment. Designed the propagation model — zero-downtime rollouts and safer staged releases.</p>
-        <div class="tags"><span class="tag">ZooKeeper</span><span class="tag">Java</span><span class="tag">54 instances</span><span class="tag">Zero-downtime</span></div>
+        <h3>Distributed Runtime Configuration — ZooKeeper</h3>
+        <p>Designed a runtime configuration system backed by ZooKeeper that propagates feature flags and operational parameters to all 54 service instances within seconds, with no redeployment. Eliminated the deploy-to-change cycle for operational settings — enabling zero-downtime staged rollouts, kill-switches, and per-environment overrides.</p>
+        <div class="tags"><span class="tag">ZooKeeper</span><span class="tag">Java</span><span class="tag">54 instances</span><span class="tag">Zero-downtime</span><span class="tag">Feature flags</span></div>
       </div>
     </div>
 
     <div class="entry">
       <span class="badge badge-resolved">Resolved</span>
       <div class="entry-body">
-        <h3>Redisson Distributed Lock — Thread Ownership Bug</h3>
-        <p><code style="font-family:var(--mono);font-size:12px;background:var(--res-bg);color:var(--resolved);padding:1px 5px;border-radius:3px">IllegalMonitorStateException</code> from Redisson unlock violating thread affinity — 5xx bursts cascading across 3 services. Diagnosed thread-context switch in async path; fixed call-site, added thread-ID logging.</p>
-        <div class="tags"><span class="tag">Redisson</span><span class="tag">Redis</span><span class="tag">LTS-10745</span><span class="tag">3 services</span></div>
+        <h3>Distributed Lock Thread-Affinity Incident</h3>
+        <p>Diagnosed a production incident where <code style="font-family:var(--mono);font-size:12px;background:var(--res-bg);color:var(--resolved);padding:1px 5px;border-radius:3px">IllegalMonitorStateException</code> on distributed lock release was causing 5xx bursts across 3 services. Root cause: lock acquired on thread A, unlock attempted on thread B after an async context switch — violating the lock library's thread-affinity contract. Fixed the unlock call-site and added thread-ID correlation to distributed tracing.</p>
+        <div class="tags"><span class="tag">Distributed locks</span><span class="tag">Redis</span><span class="tag">Async threading</span><span class="tag">Incident response</span></div>
       </div>
     </div>
 
     <div class="entry">
       <span class="badge badge-resolved">Resolved</span>
       <div class="entry-body">
-        <h3>WebSocket Race Condition + BonusGenerator NPE</h3>
-        <p>Duplicate session authorization on reconnect due to non-atomic ClientContext state transition. Separately: NPE in <code style="font-family:var(--mono);font-size:12px">isBonusActive()</code> blocking campaign reward delivery for active users.</p>
-        <div class="tags"><span class="tag">WebSockets</span><span class="tag">Java</span><span class="tag">LTS-13849</span><span class="tag">LTS-11231</span></div>
+        <h3>WebSocket Session Race + Reward Pipeline NPE</h3>
+        <p>Resolved two concurrent production incidents: (1) a race in WebSocket reconnect handling where non-atomic session state transitions caused duplicate authorization and silent message drops; (2) a NullPointerException in the reward delivery pipeline that blocked bonus payouts for all active campaign participants until patched.</p>
+        <div class="tags"><span class="tag">WebSockets</span><span class="tag">Java</span><span class="tag">Race condition</span><span class="tag">Incident response</span></div>
       </div>
     </div>
 
     <div class="entry">
       <span class="badge badge-resolved">Resolved</span>
       <div class="entry-body">
-        <h3>Jackpot N+1 + Login Path Batching</h3>
-        <p>Jackpot service running per-user Redis round-trips on a 10-second polling interval. Batched the query. Also batched MongoDB reads on login path and halved build artifact size.</p>
-        <div class="tags"><span class="tag">Performance</span><span class="tag">MongoDB</span><span class="tag">Redis</span><span class="tag">N+1</span></div>
+        <h3>N+1 Query Elimination — Login Path &amp; Polling Service</h3>
+        <p>Identified and fixed two N+1 patterns: a polling service issuing individual Redis round-trips per user on every cycle (replaced with a single batched read), and MongoDB fan-out on the login critical path (batched into one query). Also corrected Maven dependency scoping, halving the deployed artifact size.</p>
+        <div class="tags"><span class="tag">Performance</span><span class="tag">MongoDB</span><span class="tag">Redis</span><span class="tag">Query batching</span><span class="tag">Maven</span></div>
       </div>
     </div>
   </section>
