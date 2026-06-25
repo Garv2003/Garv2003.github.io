@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Garv Aggarwal — Backend Engineer</title>
 <meta name="description" content="Backend engineer building distributed Java and Go systems. New Delhi.">
+<meta property="og:title" content="Garv Aggarwal — Backend Engineer">
+<meta property="og:description" content="Backend engineer building distributed Java and Go systems across a 54-service platform. Java, Go, Spring Boot, AWS, Redis, ZooKeeper.">
+<meta property="og:url" content="https://garv2003.github.io">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Garv Aggarwal — Backend Engineer">
+<meta name="twitter:description" content="Backend engineer building distributed Java and Go systems across a 54-service platform.">
 <style>
 :root {
   --ground:   #09090B;
@@ -504,7 +511,7 @@ footer p { font-family: var(--mono); font-size: 12px; color: var(--muted); }
 <!-- Hero -->
 <section id="hero">
   <div class="hero-glow" aria-hidden="true"></div>
-  <p class="hero-eyebrow">New Delhi, India · Open to Backend Engineering Roles</p>
+  <p class="hero-eyebrow">New Delhi, India · Best Performer @ Octro · Open to Backend Roles</p>
   <h1 class="hero-name">Garv Aggarwal</h1>
   <p class="hero-title">
     Backend engineer building <b>distributed Java and Go systems</b> in production.
@@ -557,8 +564,8 @@ footer p { font-family: var(--mono); font-size: 12px; color: var(--muted); }
     <div class="entry">
       <span class="badge badge-shipped">Shipped</span>
       <div class="entry-body">
-        <h3>Time-bound Reward Delivery System</h3>
-        <p>Built a reward system where each reward carries its own independent TTL — expiry is per-reward, not per-session, so users don't lose entitlements on logout. Integrated with an external CRM for scheduled delivery triggers. Designed the cross-service data contract and maintained reward balance integrity across account merge and deletion flows spanning 3 services.</p>
+        <h3>Time-bound Reward Lifecycle System</h3>
+        <p>Built a reward system where each reward carries its own independent TTL — expiry is per-reward, not per-session, so users keep what they've earned across logouts. Integrated with an external CRM for scheduled delivery triggers. Designed the cross-service data contract and maintained reward balance integrity across account merge and deletion flows spanning 3 services.</p>
         <div class="tags"><span class="tag">Java</span><span class="tag">Spring</span><span class="tag">TTL</span><span class="tag">CRM integration</span><span class="tag">3 services</span></div>
       </div>
     </div>
@@ -575,8 +582,17 @@ footer p { font-family: var(--mono); font-size: 12px; color: var(--muted); }
     <div class="entry">
       <span class="badge badge-shipped">Shipped</span>
       <div class="entry-body">
-        <h3>Real-time Multiplayer Game Server</h3>
-        <p>Built the backend for a real-time multiplayer betting game serving concurrent player sessions — wager acceptance, cashout processing, configurable per-room payout rates, and a live leaderboard broadcast to all connected clients over WebSocket every 30 seconds. Maintained per-room state isolation under concurrent load.</p>
+        <h3>Polyglot Compute Layer — Java ↔ TypeScript Lambda</h3>
+        <p>Built a compute layer bridging the Java microservices and versioned TypeScript AWS Lambda functions — Java resolves the correct Lambda version from ZooKeeper runtime config and invokes it asynchronously via <code style="font-family:var(--mono);font-size:12px;background:var(--surface2);padding:1px 5px;border-radius:3px">CompletableFuture</code>, with the computation logic itself authored in TypeScript. Recognized as Best Performer for this and related backend work.</p>
+        <div class="tags"><span class="tag">TypeScript</span><span class="tag">AWS Lambda</span><span class="tag">Java</span><span class="tag">CompletableFuture</span><span class="tag">Async</span></div>
+      </div>
+    </div>
+
+    <div class="entry">
+      <span class="badge badge-shipped">Shipped</span>
+      <div class="entry-body">
+        <h3>Real-time Multiplayer Session Server</h3>
+        <p>Built the backend for a real-time multiplayer session serving concurrent player connections — concurrent state management, per-session configuration, and a live leaderboard broadcast to all connected clients over WebSocket every 30 seconds. Maintained per-session state isolation under concurrent load.</p>
         <div class="tags"><span class="tag">Java</span><span class="tag">Redis</span><span class="tag">WebSockets</span><span class="tag">Real-time</span><span class="tag">Concurrent sessions</span></div>
       </div>
     </div>
@@ -585,7 +601,7 @@ footer p { font-family: var(--mono); font-size: 12px; color: var(--muted); }
       <span class="badge badge-shipped">Shipped</span>
       <div class="entry-body">
         <h3>Distributed Runtime Configuration — ZooKeeper</h3>
-        <p>Designed a runtime configuration system backed by ZooKeeper that propagates feature flags and operational parameters to all 54 service instances within seconds, with no redeployment. Eliminated the deploy-to-change cycle for operational settings — enabling zero-downtime staged rollouts, kill-switches, and per-environment overrides.</p>
+        <p>Made services configurable through the platform's ZooKeeper-backed runtime config, propagating feature flags and operational parameters to all 54 service instances within seconds, with no redeployment. Removed the deploy-to-change cycle for operational settings — enabling zero-downtime staged rollouts, kill-switches, and per-environment overrides.</p>
         <div class="tags"><span class="tag">ZooKeeper</span><span class="tag">Java</span><span class="tag">54 instances</span><span class="tag">Zero-downtime</span><span class="tag">Feature flags</span></div>
       </div>
     </div>
@@ -603,7 +619,7 @@ footer p { font-family: var(--mono); font-size: 12px; color: var(--muted); }
       <span class="badge badge-resolved">Resolved</span>
       <div class="entry-body">
         <h3>WebSocket Session Race + Reward Pipeline NPE</h3>
-        <p>Resolved two concurrent production incidents: (1) a race in WebSocket reconnect handling where non-atomic session state transitions caused duplicate authorization and silent message drops; (2) a NullPointerException in the reward delivery pipeline that blocked bonus payouts for all active campaign participants until patched.</p>
+        <p>Resolved two concurrent production incidents: (1) a race in WebSocket reconnect handling where non-atomic session state transitions caused duplicate authorization and silent message drops; (2) a NullPointerException in the reward delivery pipeline that blocked reward delivery for all active users until patched.</p>
         <div class="tags"><span class="tag">WebSockets</span><span class="tag">Java</span><span class="tag">Race condition</span><span class="tag">Incident response</span></div>
       </div>
     </div>
