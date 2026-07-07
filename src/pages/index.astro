@@ -1,0 +1,220 @@
+---
+import Base from '../layouts/Base.astro';
+
+const kpis = [
+  { v: 1, l: 'Year Exp.' }, { v: 7, l: 'Features' },
+  { v: 6, l: 'Prod. Incidents' }, { v: 54, l: 'Microservices' },
+];
+
+const work = [
+  { badge: 'shipped', title: 'Cross-provider Account Migration with Atomic Merge',
+    body: 'Designed and shipped a multi-provider identity linking system (Facebook, Apple Sign-In) so users can migrate existing accounts to social login without data loss. Owns the full flow: server-side time-bound token generation, email verification, and an atomic merge transaction across 3 microservices — with guards for concurrent same-user requests, partial-failure rollback, and TTL-based token invalidation.',
+    tags: ['Java', 'MongoDB', '3 services', 'Atomic writes', 'Idempotency'] },
+  { badge: 'shipped', title: 'Time-bound Reward Lifecycle System',
+    body: "Built a reward system where each reward carries its own independent TTL — expiry is per-reward, not per-session, so users keep what they've earned across logouts. Integrated with an external CRM for scheduled delivery triggers. Designed the cross-service data contract and maintained reward balance integrity across account merge and deletion flows spanning 3 services.",
+    tags: ['Java', 'Spring', 'TTL', 'CRM integration', '3 services'] },
+  { badge: 'shipped', title: 'Async Push Notification Pipeline — Amazon SQS',
+    body: 'Re-architected mobile push notification delivery from a blocking HTTP call on the login critical path to a fully async SQS pipeline — decoupling notification throughput from login latency. Built iOS/Android platform routing, per-platform delivery rate limits backed by ZooKeeper runtime config, and a dead-letter queue with CloudWatch alerting for failed deliveries.',
+    tags: ['Amazon SQS', 'ZooKeeper', 'Async', 'DLQ', 'CloudWatch'] },
+  { badge: 'shipped', title: 'Polyglot Compute Layer — Java ↔ TypeScript Lambda',
+    body: 'Built a compute layer bridging the Java microservices and versioned TypeScript AWS Lambda functions — Java resolves the correct Lambda version from ZooKeeper runtime config and invokes it asynchronously via <code class="ic">CompletableFuture</code>, with the computation logic itself authored in TypeScript. Recognized as Best Performer for this and related backend work.',
+    tags: ['TypeScript', 'AWS Lambda', 'Java', 'CompletableFuture', 'Async'] },
+  { badge: 'shipped', title: 'Real-time Multiplayer Session Server',
+    body: 'Built the backend for a real-time multiplayer session serving concurrent player connections — concurrent state management, per-session configuration, and a live leaderboard broadcast to all connected clients over WebSocket every 30 seconds. Maintained per-session state isolation under concurrent load.',
+    tags: ['Java', 'Redis', 'WebSockets', 'Real-time', 'Concurrent sessions'] },
+  { badge: 'shipped', title: 'Distributed Runtime Configuration — ZooKeeper',
+    body: "Made services configurable through the platform's ZooKeeper-backed runtime config, propagating feature flags and operational parameters to all 54 service instances within seconds, with no redeployment. Removed the deploy-to-change cycle for operational settings — enabling zero-downtime staged rollouts, kill-switches, and per-environment overrides.",
+    tags: ['ZooKeeper', 'Java', '54 instances', 'Zero-downtime', 'Feature flags'] },
+  { badge: 'resolved', title: 'Distributed Lock Thread-Affinity Incident',
+    body: 'Diagnosed a production incident where <code class="ic ic-fail">IllegalMonitorStateException</code> on distributed lock release was causing 5xx bursts across 3 services. Root cause: lock acquired on thread A, unlock attempted on thread B after an async context switch — violating the lock library\'s thread-affinity contract. Fixed the unlock call-site and added thread-ID correlation to distributed tracing.',
+    tags: ['Distributed locks', 'Redis', 'Async threading', 'Incident response'] },
+  { badge: 'resolved', title: 'WebSocket Session Race + Reward Pipeline NPE',
+    body: 'Resolved two concurrent production incidents: (1) a race in WebSocket reconnect handling where non-atomic session state transitions caused duplicate authorization and silent message drops; (2) a NullPointerException in the reward delivery pipeline that blocked reward delivery for all active users until patched.',
+    tags: ['WebSockets', 'Java', 'Race condition', 'Incident response'] },
+  { badge: 'resolved', title: 'N+1 Query Elimination — Login Path & Polling Service',
+    body: 'Identified and fixed two N+1 patterns: a polling service issuing individual Redis round-trips per user on every cycle (replaced with a single batched read), and MongoDB fan-out on the login critical path (batched into one query). Also corrected Maven dependency scoping, halving the deployed artifact size.',
+    tags: ['Performance', 'MongoDB', 'Redis', 'Query batching', 'Maven'] },
+];
+
+const projects = [
+  { title: 'Code Execution Engine',
+    body: 'LeetCode-style backend in Go — worker pool with buffered channels, ephemeral Docker containers per submission with resource limits and context timeouts, SSE streaming for real-time output.',
+    stats: ['3.2s → 450ms', '500+ concurrent'],
+    tags: ['Go', 'Docker SDK', 'Redis Pub/Sub', 'SSE', 'Goroutines'],
+    url: 'https://github.com/garv2003/code-execution-engine' },
+  { title: 'HTTP Load Balancer',
+    body: 'Production-style Go load balancer with multiple routing strategies, runtime config reload without dropping traffic via fsnotify + sync.RWMutex, and active health checks with failure isolation.',
+    stats: ['Zero-downtime reload'],
+    tags: ['Go', 'sync.RWMutex', 'fsnotify', 'YAML'],
+    url: 'https://github.com/garv2003/go-load-balancer' },
+];
+
+const stack = ['Java','Go','Spring Boot','MongoDB','Redis','RabbitMQ','ZooKeeper','Amazon SQS','WebSockets','Docker','AWS','Avro / BI','Kafka','Kubernetes','Grafana','Prometheus','Tempo','Linux','JavaScript','TypeScript'];
+
+const contacts = [
+  { icon: '✉', label: 'Email', val: 'aggarwalgarv0505@gmail.com', href: 'mailto:aggarwalgarv0505@gmail.com', mono: false },
+  { icon: 'in', label: 'LinkedIn', val: 'garvaggarwal05', href: 'https://linkedin.com/in/garvaggarwal05', mono: false },
+  { icon: 'gh', label: 'GitHub', val: 'garv2003', href: 'https://github.com/garv2003', mono: true },
+];
+---
+<Base title="Garv Aggarwal — Backend Engineer" description="Backend engineer building distributed Java and Go systems across a 54-service platform. Java, Go, Spring Boot, AWS, Redis, ZooKeeper." ogType="website" active="/">
+  <style>
+    .home{--maxw:820px;}
+    #hero{min-height:74vh;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:80px 0 40px;position:relative;}
+    .hero-glow{position:absolute;top:44%;left:50%;transform:translate(-50%,-60%);width:640px;height:640px;max-width:100%;background:radial-gradient(ellipse,rgba(245,158,11,.11) 0%,transparent 66%);pointer-events:none;}
+    .hero-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);}
+    .hero-name{font-size:clamp(46px,10vw,88px);font-weight:800;letter-spacing:-.03em;line-height:.98;margin:18px 0;}
+    .hero-title{color:var(--muted);font-size:clamp(15px,2.4vw,18px);max-width:34ch;margin:0 auto;}
+    .hero-title b{color:var(--text);font-weight:600;}
+    .hero-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:28px;}
+    .hero-link{font-family:var(--mono);font-size:13px;color:var(--muted);border:1px solid var(--border);border-radius:7px;padding:8px 15px;}
+    .hero-link:hover{color:var(--text);border-color:var(--accent);text-decoration:none;}
+    .kpi-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:52px;}
+    .kpi{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:18px 26px;min-width:104px;}
+    .kpi:hover{border-color:var(--accent);}
+    .kpi-val{display:block;font-family:var(--mono);font-size:34px;font-weight:800;color:var(--accent);line-height:1;font-variant-numeric:tabular-nums;}
+    .kpi-label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:7px;}
+
+    .page{max-width:var(--maxw);margin:0 auto;}
+    .content{padding:64px 0;border-top:1px solid var(--border);}
+    .section-label{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:30px;}
+    .employer-row{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px;margin-bottom:26px;}
+    .employer-name{font-size:17px;font-weight:700;}
+    .employer-period{font-family:var(--mono);font-size:12px;color:var(--muted);}
+    .entry{display:grid;grid-template-columns:92px 1fr;gap:20px;padding:20px 0;border-top:1px solid var(--border);align-items:start;}
+    .entry:first-of-type{border-top:none;}
+    .entry-body h3{font-size:15.5px;font-weight:600;margin-bottom:6px;line-height:1.3;}
+    .entry-body p{font-size:13.5px;color:var(--muted);line-height:1.62;}
+    .ic{font-family:var(--mono);font-size:12px;background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:1px 5px;color:#fcd9a0;}
+    .ic-fail{color:var(--fail);background:var(--fail-soft);border-color:rgba(248,113,113,.3);}
+    .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+    .tag{font-family:var(--mono);font-size:11px;background:var(--surface2);color:var(--muted);padding:2px 8px;border-radius:4px;border:1px solid var(--border);}
+    .badge{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:4px;border:1px solid;white-space:nowrap;}
+    .badge-shipped{background:var(--ok-soft);color:var(--ok);border-color:rgba(34,197,94,.3);}
+    .badge-resolved{background:var(--fail-soft);color:var(--fail);border-color:rgba(248,113,113,.3);}
+    .badge-active{background:rgba(96,165,250,.1);color:var(--info);border-color:rgba(96,165,250,.3);}
+
+    .project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px;}
+    .project-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px;display:flex;flex-direction:column;gap:10px;}
+    .project-card:hover{border-color:var(--accent-d);transform:translateY(-3px);}
+    .project-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+    .project-card h3{font-size:15px;font-weight:700;}
+    .project-card p{font-size:13.5px;color:var(--muted);line-height:1.6;flex:1;}
+    .project-stat{font-family:var(--mono);font-size:11px;color:var(--accent);background:var(--accent-soft);border:1px solid rgba(245,158,11,.2);padding:2px 8px;border-radius:4px;}
+    .project-link{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--muted);margin-top:2px;}
+    .project-link:hover{color:var(--accent);text-decoration:none;}
+
+    .stack-row{display:flex;flex-wrap:wrap;gap:8px;}
+    .stack-chip{font-family:var(--mono);font-size:12.5px;padding:6px 14px;border:1px solid var(--border);border-radius:6px;color:var(--muted);background:var(--surface);}
+    .stack-chip:hover{color:var(--accent);border-color:var(--accent-d);}
+
+    .contact-grid{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;}
+    .contact-card{flex:1 1 220px;max-width:300px;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;display:flex;align-items:center;gap:12px;color:var(--text);}
+    .contact-card:hover{border-color:var(--accent);transform:translateY(-2px);text-decoration:none;}
+    .contact-icon{width:36px;height:36px;background:var(--surface2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+    .contact-label{font-family:var(--mono);font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;}
+    .contact-val{font-size:13.5px;font-weight:500;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .card-hoverable{transition:border-color .18s,transform .18s;}
+
+    .reveal{opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s;}
+    .reveal.in{opacity:1;transform:none;}
+    @media (max-width:600px){ .entry{grid-template-columns:74px 1fr;gap:12px;} }
+    @media (prefers-reduced-motion:reduce){ .reveal{opacity:1;transform:none;} }
+  </style>
+
+  <div class="home">
+    <section id="hero">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <p class="hero-eyebrow">New Delhi, India · Best Performer @ Octro · Open to Backend Roles</p>
+      <h1 class="hero-name">Garv Aggarwal</h1>
+      <p class="hero-title">Backend engineer building <b>distributed Java and Go systems</b> in production. On-call for 54 services. Exploring <b>LLMs &amp; AI systems</b>.</p>
+      <div class="hero-links">
+        <a class="hero-link" href="/systems">System designs →</a>
+        <a class="hero-link" href="/blog/">Blog →</a>
+        <a class="hero-link" href="https://linkedin.com/in/garvaggarwal05" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="hero-link" href="https://github.com/garv2003" target="_blank" rel="noopener">GitHub</a>
+      </div>
+      <div class="kpi-row">
+        {kpis.map((k) => (
+          <div class="kpi"><span class="kpi-val" data-target={k.v}>0</span><span class="kpi-label">{k.l}</span></div>
+        ))}
+      </div>
+    </section>
+
+    <div class="page">
+      <section class="content reveal" id="work">
+        <p class="section-label">// Production Work</p>
+        <div class="employer-row">
+          <span class="employer-name">Octro Inc — Member of Technical Staff</span>
+          <span class="employer-period">Mar 2025 – Present</span>
+        </div>
+        {work.map((e) => (
+          <div class="entry">
+            <span class:list={['badge', `badge-${e.badge}`]}>{e.badge === 'shipped' ? 'Shipped' : 'Resolved'}</span>
+            <div class="entry-body">
+              <h3>{e.title}</h3>
+              <p set:html={e.body}></p>
+              <div class="tags">{e.tags.map((t) => <span class="tag">{t}</span>)}</div>
+            </div>
+          </div>
+        ))}
+      </section>
+
+      <section class="content reveal" id="projects">
+        <p class="section-label">// Side Projects</p>
+        <div class="project-grid">
+          {projects.map((p) => (
+            <div class="project-card card-hoverable">
+              <div class="project-header"><h3>{p.title}</h3><span class="badge badge-active">Active</span></div>
+              <p>{p.body}</p>
+              <div class="tags">{p.stats.map((s) => <span class="project-stat">{s}</span>)}</div>
+              <div class="tags">{p.tags.map((t) => <span class="tag">{t}</span>)}</div>
+              <a class="project-link" href={p.url} target="_blank" rel="noopener">View on GitHub →</a>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="content reveal" id="stack">
+        <p class="section-label">// Stack</p>
+        <div class="stack-row">{stack.map((s) => <span class="stack-chip">{s}</span>)}</div>
+      </section>
+
+      <section class="content reveal" id="contact">
+        <p class="section-label">// Contact</p>
+        <p style="color:var(--muted);font-size:14px;margin-bottom:24px;max-width:480px;">Open to backend engineering roles in distributed systems, platform engineering, or AI/LLM infrastructure.</p>
+        <div class="contact-grid">
+          {contacts.map((c) => (
+            <a class="contact-card card-hoverable" href={c.href} target={c.href.startsWith('http') ? '_blank' : undefined} rel="noopener">
+              <span class="contact-icon" style={c.mono ? 'font-family:var(--mono);font-size:13px;font-weight:700;' : (c.label === 'LinkedIn' ? 'font-weight:800;font-size:13px;' : '')}>{c.icon}</span>
+              <span><span class="contact-label">{c.label}</span><br /><span class="contact-val">{c.val}</span></span>
+            </a>
+          ))}
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+    // scroll reveal
+    const io = new IntersectionObserver((es) => {
+      es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach((s) => reduce ? s.classList.add('in') : io.observe(s));
+    // kpi count-up
+    const kpiEls = document.querySelectorAll<HTMLElement>('.kpi-val[data-target]');
+    if (reduce) {
+      kpiEls.forEach((el) => (el.textContent = el.dataset.target!));
+    } else {
+      const t0 = performance.now(), dur = 1100;
+      const tick = (now: number) => {
+        const p = Math.min((now - t0) / dur, 1), e = 1 - Math.pow(1 - p, 4);
+        kpiEls.forEach((el) => (el.textContent = String(Math.round(e * +el.dataset.target!))));
+        if (p < 1) requestAnimationFrame(tick);
+        else kpiEls.forEach((el) => (el.textContent = el.dataset.target!));
+      };
+      requestAnimationFrame(tick);
+    }
+  </script>
+</Base>

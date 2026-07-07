@@ -1,0 +1,42 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const words = post.body.split(/\s+/).filter(Boolean).length;
+const readMins = Math.max(1, Math.round(words / 200));
+const fmt = (d: string) =>
+  new Date(d + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+const site = Astro.site ?? new URL('https://garv2003.github.io');
+const url = new URL(Astro.url.pathname, site).href;
+const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+---
+<Base title={`${post.data.title} — Garv Aggarwal`} description={post.data.description} ogImage={post.data.ogImage} ogType="article" active="/blog/">
+  <article class="article">
+    <div class="meta">
+      <a href="/blog/" style="color:var(--accent);">&larr; Blog</a>
+      <span>{fmt(post.data.date)}</span>
+      <span>{readMins} min read</span>
+    </div>
+    <h1>{post.data.title}</h1>
+    <p class="lede">{post.data.description}</p>
+    <div class="tags">{post.data.tags.map((t) => <span class="tag">{t}</span>)}</div>
+
+    <div class="prose" style="margin-top:34px;">
+      <Content />
+    </div>
+
+    <div class="share">
+      <span>Found this useful?</span>
+      <a class="btn" href={shareUrl} target="_blank" rel="noopener">Share on LinkedIn</a>
+    </div>
+  </article>
+</Base>
