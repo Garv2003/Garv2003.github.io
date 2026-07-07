@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import CaseStudies from '../components/CaseStudies.tsx';
+---
+<Base title="System Design Case Studies — Garv Aggarwal" description="Explorable architecture case studies: async notification pipeline, account merge, real-time leaderboard — with animated request flow, failure modes, and the tradeoffs behind each." ogType="website" active="/systems">
+  <section style="padding:44px 0 22px;max-width:var(--measure);">
+    <p class="eyebrow">System Design</p>
+    <h1 style="font-size:clamp(28px,5vw,44px);font-weight:800;letter-spacing:-.02em;line-height:1.04;margin-top:14px;text-wrap:balance;">Case studies you can explore</h1>
+    <p style="color:var(--muted);font-size:16.5px;margin-top:14px;">Real systems I designed — trace a request, break it, and see the tradeoffs. Pick one:</p>
+  </section>
+
+  <CaseStudies client:load />
+</Base>

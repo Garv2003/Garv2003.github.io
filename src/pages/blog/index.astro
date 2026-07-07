@@ -1,0 +1,41 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { CASES } from '../../components/cases';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.date.localeCompare(a.data.date)
+);
+const fmt = (d: string) =>
+  new Date(d + 'T00:00:00').toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+---
+<Base title="Blog — Garv Aggarwal" description="Writing on backend systems, reliability, and distributed-systems debugging." active="/blog/">
+  <section style="padding:44px 0 8px; max-width:var(--measure); margin:0 auto;">
+    <p class="eyebrow">Writing</p>
+    <h1 style="font-size:clamp(28px,5vw,40px);font-weight:800;letter-spacing:-.02em;margin-top:12px;">Notes on backend systems</h1>
+    <p style="color:var(--muted);margin-top:12px;">Incidents I debugged, systems I designed, and what they taught me.</p>
+    <div class="postlist">
+      {posts.map((p) => (
+        <a class="postcard" href={`/blog/${p.slug}`}>
+          <span class="d">{fmt(p.data.date)}</span>
+          <h3>{p.data.title}</h3>
+          <p>{p.data.description}</p>
+          <div class="tags">{p.data.tags.map((t) => <span class="tag">{t}</span>)}</div>
+        </a>
+      ))}
+    </div>
+
+    <p class="eyebrow" style="margin-top:44px;">System design · interactive</p>
+    <p style="color:var(--muted);margin-top:8px;font-size:14px;">Explorable architecture case studies — trace a request, break it, see the tradeoffs.</p>
+    <div class="postlist">
+      {CASES.map((c) => (
+        <a class="postcard" href={`/systems#${c.id}`}>
+          <span class="d" style="color:var(--accent);">◆ Interactive case study</span>
+          <h3>{c.title}</h3>
+          <p>{c.thesis}</p>
+          <div class="tags">{c.chips.filter((ch) => !ch.startsWith('◆')).map((ch) => <span class="tag">{ch}</span>)}</div>
+        </a>
+      ))}
+    </div>
+  </section>
+</Base>

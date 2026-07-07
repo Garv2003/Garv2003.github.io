@@ -1,0 +1,15 @@
+---
+const { active } = Astro.props;
+const links = [
+  { href: '/', label: 'Home' },
+  { href: '/blog/', label: 'Blog' },
+];
+---
+<nav class="nav wrap" aria-label="Primary">
+  <a href="/" class="brand">GA_</a>
+  <ul>
+    {links.map((l) => (
+      <li><a href={l.href} aria-current={active === l.href ? 'page' : undefined}>{l.label}</a></li>
+    ))}
+  </ul>
+</nav>

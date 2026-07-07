@@ -1,0 +1,42 @@
+---
+import '../styles/tokens.css';
+import Nav from '../components/Nav.astro';
+
+const {
+  title,
+  description = 'Backend engineer — distributed systems, Java, Go.',
+  ogImage = '/og-default.png',
+  ogType = 'website',
+  active,
+} = Astro.props;
+
+const site = Astro.site ?? new URL('https://garv2003.github.io');
+const canonical = new URL(Astro.url.pathname, site).href;
+const ogImageAbs = new URL(ogImage, site).href;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageAbs} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageAbs} />
+  </head>
+  <body>
+    <Nav active={active} />
+    <main class="wrap">
+      <slot />
+    </main>
+    <footer class="footer wrap">garv2003.github.io · Built with Astro · No trackers</footer>
+  </body>
+</html>
