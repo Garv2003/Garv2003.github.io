@@ -19,6 +19,8 @@ const ogImageAbs = new URL(ogImage, site).href;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -31,6 +33,18 @@ const ogImageAbs = new URL(ogImage, site).href;
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageAbs} />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'Person',
+      name: 'Garv Aggarwal',
+      jobTitle: 'Backend Engineer',
+      url: site.href,
+      knowsAbout: ['Distributed Systems', 'Java', 'Go', 'Backend Engineering', 'AWS'],
+      sameAs: [
+        'https://github.com/garv2003',
+        'https://linkedin.com/in/garvaggarwal05',
+      ],
+    })} />
   </head>
   <body>
     <Nav active={active} />
