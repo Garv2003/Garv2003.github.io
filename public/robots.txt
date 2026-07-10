@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://garv2003.github.io/sitemap-index.xml

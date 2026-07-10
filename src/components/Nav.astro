@@ -2,14 +2,20 @@
 const { active } = Astro.props;
 const links = [
   { href: '/', label: 'Home' },
+  { href: '/systems', label: 'Systems' },
   { href: '/blog/', label: 'Blog' },
+  { href: '/resume.pdf', label: 'Résumé', external: true },
 ];
 ---
 <nav class="nav wrap" aria-label="Primary">
   <a href="/" class="brand">GA_</a>
   <ul>
     {links.map((l) => (
-      <li><a href={l.href} aria-current={active === l.href ? 'page' : undefined}>{l.label}</a></li>
+      <li>
+        {l.external
+          ? <a href={l.href} target="_blank" rel="noopener">{l.label}</a>
+          : <a href={l.href} aria-current={active === l.href ? 'page' : undefined}>{l.label}</a>}
+      </li>
     ))}
   </ul>
 </nav>

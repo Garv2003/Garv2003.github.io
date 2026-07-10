@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="404 — Garv Aggarwal" description="Page not found." active="">
+  <section style="min-height:56vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:16px;">
+    <p class="eyebrow">Error 404</p>
+    <h1 style="font-size:clamp(40px,10vw,76px);font-weight:800;letter-spacing:-.03em;line-height:1;">Not found</h1>
+    <p style="color:var(--muted);max-width:44ch;">That page doesn't exist — it may have moved. Here's the way back.</p>
+    <div style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center;font-family:var(--mono);font-size:13px;">
+      <a href="/" style="border:1px solid var(--border);border-radius:7px;padding:8px 15px;color:var(--muted);">← Home</a>
+      <a href="/systems" style="border:1px solid var(--border);border-radius:7px;padding:8px 15px;color:var(--muted);">System designs</a>
+      <a href="/blog/" style="border:1px solid var(--border);border-radius:7px;padding:8px 15px;color:var(--muted);">Blog</a>
+    </div>
+  </section>
+</Base>
