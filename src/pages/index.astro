@@ -60,8 +60,18 @@ const contacts = [
 ---
 <Base title="Garv Aggarwal — Backend Engineer" description="Backend engineer building distributed Java and Go systems across a 54-service platform. Java, Go, Spring Boot, AWS, Redis, ZooKeeper." ogType="website" active="/">
   <style>
-    .home{--maxw:820px;}
+    .home{--maxw:820px;position:relative;}
+    /* blueprint substrate — faint schematic grid across the page */
+    .home::before{content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+      background-image:linear-gradient(rgba(255,255,255,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.022) 1px,transparent 1px);
+      background-size:46px 46px;}
     #hero{min-height:74vh;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:80px 0 40px;position:relative;}
+    /* blueprint node-grid glowing behind the hero */
+    #hero::before{content:"";position:absolute;inset:-60px 0;z-index:-1;pointer-events:none;
+      background-image:radial-gradient(rgba(245,158,11,.16) 1.1px,transparent 1.4px);
+      background-size:24px 24px;
+      -webkit-mask-image:radial-gradient(ellipse 68% 58% at 50% 44%,#000 26%,transparent 76%);
+              mask-image:radial-gradient(ellipse 68% 58% at 50% 44%,#000 26%,transparent 76%);}
     .hero-glow{position:absolute;top:44%;left:50%;transform:translate(-50%,-60%);width:640px;height:640px;max-width:100%;background:radial-gradient(ellipse,rgba(245,158,11,.11) 0%,transparent 66%);pointer-events:none;}
     .hero-eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);}
     .hero-name{font-size:clamp(46px,10vw,88px);font-weight:800;letter-spacing:-.03em;line-height:.98;margin:18px 0;}
